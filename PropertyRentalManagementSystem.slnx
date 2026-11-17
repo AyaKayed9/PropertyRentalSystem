@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="PropertyRentalManagementSystem.API/PropertyRentalManagementSystem.API.csproj" />
+  <Project Path="PropertyRentalManagementSystem.Application/PropertyRentalManagementSystem.Application.csproj" Id="c999df77-a799-450e-b510-8ae5d9b9faf8" />
+  <Project Path="PropertyRentalManagementSystem.Core/PropertyRentalManagementSystem.Domain.csproj" Id="eeeed11f-589a-44af-821c-68fe50aa477c" />
+  <Project Path="PropertyRentalManagementSystem.Infrastructure/PropertyRentalManagementSystem.Infrastructure.csproj" Id="acbeb31f-f11a-45bd-b05c-87fb6c188b00" />
+</Solution>
