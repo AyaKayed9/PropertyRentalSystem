@@ -1,11 +1,6 @@
-﻿using FluentValidation;
+﻿
+using FluentValidation;
 using PropertyRentalManagementSystem.Application.Features.Properties.DTOs;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PropertyRentalManagementSystem.Application.Features.Properties.Validators
 {
@@ -14,21 +9,42 @@ namespace PropertyRentalManagementSystem.Application.Features.Properties.Validat
         public CreatePropertyValidator()
         {
             RuleFor(property => property.Title)
-                   .NotEmpty()
-                   .WithMessage("Property title is required.")
-                   .MaximumLength(150)
-                   .WithMessage("Property title cannot exceed 150 characters.");
+                .NotEmpty()
+                .WithMessage("Property title is required.")
+                .MaximumLength(150)
+                .WithMessage("Property title cannot exceed 150 characters.");
 
+            RuleFor(property => property.Description)
+                .MaximumLength(1000)
+                .WithMessage("Description cannot exceed 1000 characters.");
+
+            RuleFor(property => property.City)
+                .NotEmpty()
+                .WithMessage("City is required.")
+                .MaximumLength(50)
+                .WithMessage("City cannot exceed 100 characters.");
+
+            RuleFor(property => property.StreetAddress)
+                .NotEmpty()
+                .WithMessage("Street address is required.")
+                .MaximumLength(200)
+                .WithMessage("Street address cannot exceed 250 characters.");
 
             RuleFor(property => property.AreaSize)
-                   .GreaterThan(0)
-                   .WithMessage("Area size must be greater than zero.");
+                .GreaterThan(0)
+                .WithMessage("Area size must be greater than zero.");
 
-            RuleFor(property=> property.YearBuilt)
-                   .LessThanOrEqualTo((short)DateTime.Now.Year)
-                   .When(property => property.YearBuilt.HasValue)
-                   .WithMessage("Year built cannot be in the future.");
+            RuleFor(property => property.YearBuilt)
+                .GreaterThan((short)0)
+                .When(property => property.YearBuilt.HasValue)
+                .WithMessage("Year built must be greater than zero.")
+                .LessThanOrEqualTo((short)DateTime.Now.Year)
+                .When(property => property.YearBuilt.HasValue)
+                .WithMessage("Year built cannot be in the future.");
+
+            RuleFor(property => property.PropertyTypeId)
+                .GreaterThan(0)
+                .WithMessage("Invalid property type ID.");
         }
-
     }
 }

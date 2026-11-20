@@ -1,9 +1,4 @@
 ﻿using PropertyRentalManagementSystem.Application.Features.Properties.DTOs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PropertyRentalManagementSystem.Application.Features.Properties.Interfaces
 {
@@ -11,6 +6,8 @@ namespace PropertyRentalManagementSystem.Application.Features.Properties.Interfa
     {
         Task<List<PropertyDto>> GetAllAsync();
         Task<PropertyDto?> GetByIdAsync(int id);
-        Task<PropertyDto> CreateAsync(CreatePropertyDto dto);        
+        Task<PropertyDto> CreateAsync(CreatePropertyDto dto);
+        Task<bool> UpdateAsync(int id,UpdatePropertyDto dto);
+        Task<bool> DeleteAsync(int id);
     }
 }

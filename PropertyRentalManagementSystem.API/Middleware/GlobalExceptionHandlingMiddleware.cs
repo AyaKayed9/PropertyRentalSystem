@@ -1,7 +1,5 @@
-﻿using Azure;
-using Azure.Core;
+﻿
 using System.Net;
-using System.Text.Json;
 
 namespace PropertyRentalManagementSystem.API.Middleware
 {
@@ -10,8 +8,8 @@ namespace PropertyRentalManagementSystem.API.Middleware
         private readonly RequestDelegate _next;
         private readonly ILogger<GlobalExceptionHandlingMiddleware> _logger;
 
-        public GlobalExceptionHandlingMiddleware
-            (RequestDelegate next, 
+        public GlobalExceptionHandlingMiddleware(
+            RequestDelegate next,
             ILogger<GlobalExceptionHandlingMiddleware> logger)
         {
             _next = next;
@@ -21,26 +19,42 @@ namespace PropertyRentalManagementSystem.API.Middleware
         public async Task InvokeAsync(HttpContext context)
         {
             try
-            {               
+            {
                 await _next(context);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                _logger.LogError(ex, "An unhandled exception occured");
-                if (ex is FluentValidation.ValidationException || ex is ArgumentException) 
+                _logger.LogError(ex, "An unhandled exception occurred");
+
+                if (context.Response.HasStarted)
                 {
-                    context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    throw;
                 }
-                else
+
+                context.Response.Clear();
+
+                context.Response.StatusCode = ex switch
                 {
-                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                }
+                    FluentValidation.ValidationException =>
+                        (int)HttpStatusCode.BadRequest,
+
+                    ArgumentException =>
+                        (int)HttpStatusCode.BadRequest,
+
+                    KeyNotFoundException =>
+                        (int)HttpStatusCode.NotFound,
+
+                    _ =>
+                        (int)HttpStatusCode.InternalServerError
+                };
+
                 context.Response.ContentType = "application/json";
 
                 string message = ex switch
                 {
                     FluentValidation.ValidationException => ex.Message,
                     ArgumentException => ex.Message,
+                    KeyNotFoundException => ex.Message,
                     _ => "An unexpected error occurred."
                 };
 
@@ -48,7 +62,6 @@ namespace PropertyRentalManagementSystem.API.Middleware
                 {
                     message
                 });
-
             }
         }
     }

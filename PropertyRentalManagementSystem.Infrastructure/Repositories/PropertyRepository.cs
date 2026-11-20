@@ -3,11 +3,6 @@ using PropertyRentalManagementSystem.Application.Features.Properties.DTOs;
 using PropertyRentalManagementSystem.Application.Features.Properties.Interfaces;
 using PropertyRentalManagementSystem.Domain.Entities;
 using PropertyRentalManagementSystem.Infrastructure.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 
 namespace PropertyRentalManagementSystem.Infrastructure.Repositories
@@ -33,7 +28,8 @@ namespace PropertyRentalManagementSystem.Infrastructure.Repositories
                             StreetAddress = p.StreetAddress,
                             AreaSize = p.AreaSize,
                             YearBuilt = p.YearBuilt
-                        }).ToListAsync();
+                        }).AsNoTracking()
+                          .ToListAsync();
         }
         public async Task<PropertyDto?> GetByIdAsync(int id)
         {
@@ -50,7 +46,8 @@ namespace PropertyRentalManagementSystem.Infrastructure.Repositories
                             StreetAddress = p.StreetAddress,
                             AreaSize = p.AreaSize,
                             YearBuilt = p.YearBuilt
-                        }).FirstOrDefaultAsync();
+                        }).AsNoTracking()
+                          .FirstOrDefaultAsync();
         }
         public async Task<bool> PropertyTypeExistsAsync(int id)
         {
@@ -58,11 +55,26 @@ namespace PropertyRentalManagementSystem.Infrastructure.Repositories
         }
         public async Task<Property> AddAsync(Property property)
         {
-            await _context.Properties.AddAsync(property);
+            _context.Properties.Add(property);
             await _context.SaveChangesAsync();
 
             return property;
         }
+        public async Task<Property?> GetEntityByIdAsync(int id)
+        {
+            return await _context.Properties
+                .FirstOrDefaultAsync(p => p.PropertyId == id);
 
+        }
+        public async Task UpdateAsync()
+        {
+            await _context.SaveChangesAsync();           
+        }
+
+        public async Task DeleteAsync(Property property)
+        {
+            _context.Properties.Remove(property);
+            await _context.SaveChangesAsync();
+        }
     }
 }

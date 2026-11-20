@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PropertyRentalManagementSystem.Application.Features.Properties.DTOs
+﻿namespace PropertyRentalManagementSystem.Application.Features.Properties.DTOs
 {
     public class PropertyDto
     {

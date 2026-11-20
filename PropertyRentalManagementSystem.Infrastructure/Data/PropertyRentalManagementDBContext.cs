@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using PropertyRentalManagementSystem.Domain.Entities;
 namespace PropertyRentalManagementSystem.Infrastructure.Data;
 
@@ -201,7 +199,7 @@ public partial class PropertyRentalManagementDBContext : DbContext
             entity.Property(e => e.City).HasMaxLength(50);
             entity.Property(e => e.PropertyStatus).HasMaxLength(30);
             entity.Property(e => e.StreetAddress).HasMaxLength(200);
-            entity.Property(e => e.Title).HasMaxLength(200);
+            entity.Property(e => e.Title).HasMaxLength(150);
 
             entity.HasOne(d => d.PropertyType).WithMany(p => p.Properties)
                 .HasForeignKey(d => d.PropertyTypeId)

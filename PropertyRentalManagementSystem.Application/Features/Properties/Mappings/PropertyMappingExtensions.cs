@@ -1,10 +1,5 @@
 ﻿using PropertyRentalManagementSystem.Application.Features.Properties.DTOs;
 using PropertyRentalManagementSystem.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PropertyRentalManagementSystem.Application.Features.Properties.Mappings
 {
@@ -39,6 +34,17 @@ namespace PropertyRentalManagementSystem.Application.Features.Properties.Mapping
                 AreaSize = property.AreaSize,
                 YearBuilt = property.YearBuilt
             };
+        }
+
+        public static void UpdateEntity(this UpdatePropertyDto dto, Property property)
+        {
+            property.PropertyTypeId = dto.PropertyTypeId;
+            property.Title = dto.Title;
+            property.Description = dto.Description;
+            property.City = dto.City;
+            property.StreetAddress = dto.StreetAddress;
+            property.AreaSize = dto.AreaSize;
+            property.YearBuilt = dto.YearBuilt;
         }
     }
 }

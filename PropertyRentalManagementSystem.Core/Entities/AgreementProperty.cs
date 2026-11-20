@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace PropertyRentalManagementSystem.Domain.Entities;
+﻿namespace PropertyRentalManagementSystem.Domain.Entities;
 
 public partial class AgreementProperty
 {
